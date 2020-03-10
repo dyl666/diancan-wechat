@@ -1,0 +1,60 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 顶部轮播图 -->
+  <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="swiper-box">
+    <block wx:for="{{imgUrls}}" wx:key="unique">
+      <swiper-item class='swiper-item'>
+        <image src="{{item}}" class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <!-- 按钮功能 -->
+  <view class='btn-bar'>
+    <view class='btn-block' bindtap='golist'>
+      <view class="btn_op btn_op1">开始点餐</view>
+    </view>
+    <view class='btn-block'>
+      <view class="btn_op btn_op2">提前预约</view>
+    </view>
+    <view class='btn-block'>
+      <view class="btn_op btn_op3">排队等待</view>
+    </view>
+    <view class='btn-block'>
+      <view class="btn_op btn_op2">排队等待</view>
+    </view>
+  </view>
+
+
+  <!-- 商家简介 -->
+  <view class="store-box">
+    <view>
+      <text class="text">店铺slog:做最好的菜，见最好的你</text>
+    </view>
+    <view>
+      <text class="text">营业时间：00：01 ~ 00：59</text>
+    </view>
+    <view>
+      <text class="text">门店介绍：门店已经有20年的历史</text>
+    </view>
+    <view>
+      <text class="text">门店活动:xxxxxxx</text>
+    </view>
+    <view>
+      <text class="text">门店特色:</text>
+      <!-- 底部横向滑动box -->
+      <view class='bottom-box'>
+        <scroll-view scroll-x="true" class="scroll-box">
+          <view class='slide-inline-box'>
+            <image src='../../images/banner1.png' class='bottom-image'></image>
+          </view>
+          <view class='slide-inline-box'>
+            <image src='../../images/banner2.png' class='bottom-image'></image>
+          </view>
+          <view class='slide-inline-box'>
+            <image src='../../images/banner3.png' class='bottom-image'></image>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,94 @@
+/**index.wxss**/
+
+.swiper-box {
+  margin: 10rpx 0;
+  width: 96%;
+  height: 300rpx;
+  border-radius: 12rpx;
+}
+
+.slide-image {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 12rpx;
+}
+
+.btn-bar {
+  width: 100%;
+  /* display: flex; */
+  margin-top: 20rpx;
+}
+
+.btn-block {
+  width: 50%;
+  display: inline-block;
+  margin: 16rpx 0;
+}
+
+.ad-box {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn_op {
+  text-align: center;
+  font-size: 14px;
+  border-radius: 25px;
+  padding: 5px 20px;
+  z-index: 10;
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+}
+
+.btn_op1 {
+  color: #ff9c35;
+  border: 1px solid #ff9c35;
+}
+
+.btn_op2 {
+  color: #b6d9a9;
+  border: 1px solid #b6d9a9;
+}
+
+.btn_op3 {
+  color: #ff9c35;
+  border: 1px solid #ff9c35;
+}
+
+.store-box {
+  margin-top: 30rpx;
+  padding: 10px 16px;
+  width: 96%;
+  box-sizing: border-box;
+  background: #f7f7f7;
+}
+
+.store-box .text {
+  font-size: 24rpx;
+  margin: 10rpx 0;
+}
+
+.scroll-box {
+  display: flex;
+  white-space: nowrap;
+  width: 95%;
+}
+
+.bottom-box {
+  margin-top: 15rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-image {
+  width: 280rpx;
+  height: 170rpx;
+  border-radius: 10rpx;
+}
+
+.slide-inline-box {
+  display: inline-block;
+  margin-right: 10px;
+}
