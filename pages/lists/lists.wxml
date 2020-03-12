@@ -1,0 +1,85 @@
+<!--pages/lists/lists.wxml-->
+<view class="container">
+  <view class="content">
+    <!-- 左边栏 -->
+    <view class='left'>
+      <scroll-view scroll-y="true" style='height:{{windowHeight  }}px'>
+        <view class="iteml {{index == activeIndex?'actived':''}}" wx:for="{{listdata}}" wx:key="unique" bindtap="navTap" data-index='{{index}}'>
+          <text class="namel">{{item.name}}</text>
+        </view>
+      </scroll-view>
+    </view>
+    <!-- 右边栏 -->
+    <view class='right'>
+      <scroll-view scroll-y="true" style='height:{{windowHeight  }}px' scroll-into-view="{{toView}}" bindscroll="scroll">
+        <!--  start -->
+        <view class="itemr" wx:for='{{listdata}}' wx:key="unique" id="a{{index}}">
+          <view class="{{index == activeIndex?'fixed':''}}">
+            <text class="namer">{{item.name}}</text>
+          </view>
+          <view class="{{index == activeIndex?'padTop':''}} food-item" wx:for='{{item.foods}}' wx:key="unique" wx:for-index="indexs">
+            <view>
+              <image src='../../images/food.png' class="foods-image"></image>
+            </view>
+            <view class="food-info">
+              <text class="food-name">{{item.name}}</text>
+              <view style="display:flex;justify-content: space-between">
+                <text class="food-price">￥{{item.price}}</text>
+                <view>
+                  <!-- <image src='../../images/jian.png' class="add-image" bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}'></image>
+                  <text class='curNum'>1</text> -->
+                  <image src='../../images/add.png' class="add-image" bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}'></image>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- end  -->
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 菜品详情栏弹框 -->
+
+
+
+  <!-- 底部栏 -->
+  <view class="car-container">
+    <view class="gouwuche">
+      <image src='../../images/car.png' class="car-image" wx:if='{{sumMoney<= 0}}' catchtap="carTap"> </image>
+      <image src='../../images/cared.png' class="car-image" wx:else catchtap="carTap"> </image>
+      <text class="car-price" wx:if='{{sumMoney<= 0}}'>购物车是空的</text>
+      <text class="car-price" wx:else style="color:#fff">￥{{sumMoney}}</text>
+      <!-- <text>￥10.00</text> -->
+      <text class="number-msg" wx:if='{{sumMoney>0}}'>{{cartList.length}}</text>
+    </view>
+    <button class="car-btn {{sumMoney>0?'car-btn-ed':'' }}" catchtap='orderinfoGo'>去下单</button>
+  </view>
+
+  <!-- 购物车详细列表 -->
+  <view class="carlist-container" wx:if='{{carShow}}'>
+    <view class="null" bindtap="carTap"></view>
+    <view class="carlist-content">
+      <view class='top'>
+        <text>已选商品</text>
+        <text catchtap="clearCarTap">清空购物车</text>
+      </view>
+      <scroll-view scroll-y="true" class="{{cartList.length>5?'cart-scroll-list':''}}">
+        <view class="carlist" wx:for="{{cartList}}" wx:key="unique">
+          <view style="display:flex; flex-direction: column">
+            <text class="car-food-name">{{item.name}}</text>
+            <!-- <text class="car-note">{{item.detail}}</text> -->
+          </view>
+          <view>
+            <text class="car-food-price">￥{{item.sum}}</text>
+            <image src='../../images/jian.png' class="car-jian-image" catchtap="decNumber" data-index='{{index}}'></image>
+            <text class="car-food-num">{{item.number}}</text>
+            <image src='../../images/add.png' class="car-add-image" catchtap="addNumber" data-index='{{index}}'></image>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+  </view>
+
+</view>

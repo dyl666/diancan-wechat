@@ -28,6 +28,12 @@ Page({
       url: '../logs/logs'
     })
   },
+  // 点餐
+  orderGo: function() {
+    wx.navigateTo({
+      url: '../lists/lists'
+    })
+  },
   onLoad: function() {
     if (app.globalData.userInfo) {
       this.setData({

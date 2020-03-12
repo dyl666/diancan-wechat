@@ -4,8 +4,9 @@
     "pages/order/order",
     "pages/my/my",
     "pages/orderlist/orderlist",
-    "pages/orderinfo",
-    "pages/card/card"
+    "pages/orderinfo/orderinfo",
+    "pages/card/card",
+    "pages/lists/lists"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,1 +1,95 @@
 /* pages/orderlist/orderlist.wxss */
+
+.active-color {
+  border: 2rpx solid #f25909;
+  color: #f25909;
+}
+
+.unactive-color {
+  border: 2rpx solid #999;
+  color: #999;
+}
+
+.start-btn {
+  width: 100px;
+  background: #f25909;
+  font-size: 14px;
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 10rpx;
+}
+
+.note-btn {
+  font-size: 14px;
+  color: grey;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dindgan-i {
+  font-size: 100px;
+  color: grey;
+}
+
+.tab-box {
+  width: 98%;
+  display: flex;
+  font-size: 14px;
+  color: white;
+  margin: 0 auto;
+}
+
+.tab-box .go-center {
+  text-align: center;
+  padding: 12rpx 0;
+  margin: 0 20rpx;
+  border-radius: 10rpx;
+}
+
+.lists-box {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 30rpx; 
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 15rpx 0;
+  border-top: 2rpx solid #f7f7f7;
+  align-items: center;
+}
+
+.bottom-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 10rpx;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 10rpx 20rpx;
+  flex-direction: column;
+}
+
+.item .right text {
+  font-size: 28rpx;
+  color: #333;
+  margin: 6rpx 0;
+  display: inline-block;
+  text-align: left;
+}
+
+.btn-del {
+  padding: 10rpx 16rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 6rpx;
+  background: #f25909;
+}

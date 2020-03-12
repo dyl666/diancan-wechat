@@ -1,0 +1,310 @@
+/* pages/lists/lists.wxss */
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.left {
+  width: 200rpx;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: #6c6c6c;
+  background: #f9f9f9;
+}
+
+.right {
+  flex: 1;
+  background: #fff;
+}
+
+.iteml {
+  width: 100%;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 30rpx 40rpx;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.iteml.actived {
+  border-bottom: 2px solid #f25909;
+  color: #f25909;
+}
+
+.namel {
+  font-size: 28rpx;
+}
+
+.itemr {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.itemr:last-child {
+  padding-bottom: 120rpx;
+}
+
+.itemr .fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.itemr .padTop {
+  padding-top: 54rpx;
+}
+
+.namer {
+  width: 100%;
+  display: block;
+  background: #f3f4f6;
+  font-size: 24rpx;
+  text-align: left;
+  color: #cbcccf;
+  height: 54rpx;
+  line-height: 54rpx;
+  padding-left: 20rpx;
+}
+
+.food-item {
+  border-bottom: 1px solid #f7f7f7;
+  display: flex;
+  align-items: stretch;
+  padding: 10rpx 20rpx;
+}
+
+.foods-image {
+  width: 160rpx;
+  height: 160rpx;
+  margin-top: 8rpx;
+}
+
+.food-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20rpx 0 20rpx 20rpx;
+  padding-right: 0;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.food-name {
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #333;
+}
+
+.food-price {
+  color: #ff4342;
+  font-weight: bold;
+  font-size: 30rpx;
+}
+
+.add-image {
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+}
+
+.curNum {
+  vertical-align: middle;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+}
+
+/* 购物车start */
+
+.car-container {
+  height: 75rpx;
+  z-index: 10;
+  position: absolute;
+  bottom: 24rpx;
+  display: flex;
+  background: #353535;
+  border-radius: 40rpx;
+  left: 20rpx;
+  right: 20rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gouwuche {
+  display: inline-block;
+  padding: 0 40rpx;
+  position: relative;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 75rpx;
+  flex: 1;
+}
+
+.car-btn {
+  width: 220rpx !important;
+  display: inline-block;
+  text-align: center;
+  font-size: 30rpx;
+  background: #ccc;
+  line-height: 75rpx;
+  color: #535353;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  border-radius: 0 40rpx 40rpx 0;
+  margin-right: -1px !important;
+}
+
+.car-btn-ed {
+  background: #ff9c35;
+  color: #fff;
+}
+
+.number-msg {
+  padding: 0 12rpx;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 24rpx;
+  position: absolute;
+  text-align: center;
+  top: 0px;
+  left: 80rpx;
+  line-height: 1.5;
+}
+
+.car-image {
+  width: 50rpx;
+  height: 50rpx;
+  position: relative;
+  vertical-align: middle;
+}
+
+.car-price {
+  font-size: 30rpx;
+  color: #a9a9a9;
+  padding-left: 20rpx;
+  vertical-align: middle;
+}
+
+/* 购物车end */
+
+/* 购物车详细菜品 start */
+
+.null {
+  position: absoulte;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.carlist-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.carlist-content {
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 20rpx;
+  right: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 120rpx;
+}
+
+.carlist-content .top {
+  display: flex;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 30rpx;
+  justify-content: space-between;
+  background: #f7f7f7;
+  border-radius: 12rpx;
+}
+
+.carlist-content .top text {
+  font-size: 24rpx;
+  color: #333;
+  position: relative;
+  padding-left: 15rpx;
+}
+
+.carlist-content .top text:first-child:before {
+  width: 2px;
+  height: 24rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  content: '';
+  display: inline-block;
+  background: #f25909;
+}
+
+.cart-scroll-list {
+  height: 450rpx;
+}
+
+.carlist {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 30rpx;
+  border-top: 1px #e3e3e3 solid;
+  justify-content: space-between;
+}
+
+.carlist .car-food-name {
+  font-size: 26rpx;
+  margin-bottom: 6rpx;
+  text-align: left;
+}
+
+.carlist .car-note {
+  font-size: 22rpx;
+  color: #b1b1b1;
+}
+
+.carlist .car-food-price {
+  font-size: 26rpx;
+  color: #ff9c35;
+  margin-right: 38rpx;
+  vertical-align: middle;
+}
+
+.carlist .car-food-num {
+  font-size: 26rpx;
+  color: #333;
+  margin: 0 15rpx;
+  vertical-align: middle;
+}
+
+.carlist .car-jian-image {
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+}
+
+.carlist .car-add-image {
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: middle;
+}
+
+/* 购物车详细菜品 end */

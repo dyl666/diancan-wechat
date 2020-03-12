@@ -1,4 +1,4 @@
-// pages/orderinfo.js
+// packageB/pages/orderinfo.js
 Page({
 
   /**

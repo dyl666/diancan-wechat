@@ -1,5 +1,8 @@
 /**index.wxss**/
-
+.home-image{
+  width: 96%; 
+  border-radius: 12rpx;
+}
 .swiper-box {
   margin: 10rpx 0;
   width: 96%;
@@ -15,14 +18,16 @@
 
 .btn-bar {
   width: 100%;
-  /* display: flex; */
-  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 34rpx;
 }
 
 .btn-block {
-  width: 50%;
+  /* width: 80%; */
   display: inline-block;
-  margin: 16rpx 0;
+  margin: 20rpx 0;
 }
 
 .ad-box {
@@ -33,7 +38,7 @@
 
 .btn_op {
   text-align: center;
-  font-size: 14px;
+  font-size: 34rpx;
   border-radius: 25px;
   padding: 5px 20px;
   z-index: 10;
@@ -65,9 +70,19 @@
   background: #f7f7f7;
 }
 
+.store-box  view {
+  text-align: left;
+}
+
 .store-box .text {
   font-size: 24rpx;
   margin: 10rpx 0;
+}
+
+.store-box .text.subtext {
+  font-size: 22rpx;
+  margin: 6rpx 20rpx;
+  display: block;
 }
 
 .scroll-box {
@@ -77,9 +92,8 @@
 }
 
 .bottom-box {
-  margin-top: 15rpx;
+  margin-top: 10rpx;
   display: flex;
-  justify-content: center;
 }
 
 .bottom-image {
