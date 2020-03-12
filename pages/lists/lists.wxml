@@ -23,12 +23,12 @@
             </view>
             <view class="food-info">
               <text class="food-name">{{item.name}}</text>
-              <view style="display:flex;justify-content: space-between">
+              <view style="display:flex;justify-content:space-between;align-items:center">
                 <text class="food-price">￥{{item.price}}</text>
-                <view>
-                  <!-- <image src='../../images/jian.png' class="add-image" bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}'></image>
-                  <text class='curNum'>1</text> -->
-                  <image src='../../images/add.png' class="add-image" bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}'></image>
+                <view bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}' style='padding:20rpx'>
+                  <image src='../../images/jian.png' class="add-image" bindtap="addcarTap" data-index-parent='{{index}}' data-index-child='{{indexs}}' wx:if='{{item.curNum>0}}'></image>
+                  <text class='curNum' wx:if='{{item.curNum>0}}'>{{item.curNum}}</text>
+                  <image src='../../images/add.png' class="add-image"></image>
                 </view>
               </view>
             </view>

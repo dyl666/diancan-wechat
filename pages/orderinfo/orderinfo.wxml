@@ -1,2 +1,66 @@
 <!--pages/orderinfo.wxml-->
-<text>pages/orderinfo.wxml</text>
+<view class="container">
+  <!-- 即时单 -->
+  <view class="time-order-container">
+    <view class="title">订单详情</view>
+    <view class="order-lists" wx:for='{{cartList}}' wx:key='unique'>
+      <view class="left">
+        <text class="food-name">{{item.name}}</text>
+        <text class="food-price">￥{{item.price}}</text>
+      </view>
+      <view class="right">
+        <button class="dec-btn">-</button>
+        <text class="num">{{item.number}}</text>
+        <button class="add-btn">+</button>
+      </view>
+    </view>
+  </view>
+  <!-- 预约单 -->
+
+
+  <!-- 商品金额 -->
+  <view class="money-container">
+    <view>商品金额</view>
+    <view>
+      ￥37.00
+    </view>
+  </view>
+
+  <!-- 优惠券 -->
+  <view class="card-container">
+    <view class="box1">
+      <view>优惠方式</view>
+      <view catchtap="cardGo">
+        <text class="card-note">暂无优惠券</text>
+        <image src="../../images/next.png" class="next-image"></image>
+      </view>
+    </view>
+    <view class='box2'>- ￥3.00</view>
+  </view>
+
+
+  <!-- 备注 -->
+  <view class="card-container">
+    <view class="box1">
+      <view>备注</view>
+    </view>
+    <view class="beizhu">
+      <!-- <textarea placeholder="备注口味、偏好等"></textarea> -->
+      <textarea class="areas" placeholder='备注口味、偏好等' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs">
+        <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
+        <!-- <text class="hint">{{texts}}</text> -->
+      </textarea>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer-container">
+    <view>
+      <text class="text1">合计:</text>
+      <text class="text2">￥34.00</text>
+      <text class="text3">已优惠￥3.00</text>
+    </view>
+    <button>去结算</button>
+  </view>
+
+</view>

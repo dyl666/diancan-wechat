@@ -69,6 +69,7 @@ Page({
    */
 
   addcarTap(e) {
+    console.log(e)
     let indexParent = e.currentTarget.dataset.indexParent;
     let indexChild = e.currentTarget.dataset.indexChild;
     var obj = this.data.listdata[indexParent].foods[indexChild];
@@ -156,6 +157,7 @@ Page({
 
   /**
    * 去下单
+   * 下单请求接口，注意多人同时点一桌的菜单
    */
   orderinfoGo() {
     if (this.data.sumMoney == 0 || this.data.cartList.length == 0) {

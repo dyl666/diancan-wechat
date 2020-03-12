@@ -1,1 +1,217 @@
 /* pages/orderinfo.wxss */
+
+page {
+  background: #f7f7f7;
+}
+
+.time-order-container {
+  width: 94%;
+  margin-bottom: 12rpx;
+  background: #fff;
+  padding: 0 30rpx;
+}
+
+.title {
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  text-align: left;
+  border-bottom: 1px solid #f7f7f7;
+  font-size: 26rpx;
+  font-weight: bold;
+}
+
+.order-lists {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f7f7f7;
+  padding: 15rpx 0;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.food-name {
+  margin-bottom: 10rpx;
+  font-size: 26rpx;
+}
+
+.food-price {
+  color: #f25909;
+  font-size: 26rpx;
+}
+
+.right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right button {
+  width: 60rpx !important;
+  border: 1px solid #ebebeb;
+  height: 46rpx;
+  line-height: 1.2;
+}
+
+.add-btn {
+  color: #ff7101;
+}
+
+.num {
+  width: 80rpx;
+  height: 42rpx;
+  line-height: 42rpx;
+  border: 1px solid #ebebeb;
+  border-right: 0;
+  border-left: 0;
+  font-size: 24rpx;
+}
+
+/* 优惠券 */
+
+.money-container {
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  width: 94%;
+  background: #fff;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.card-container {
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  width: 94%;
+  background: #fff;
+  flex-direction: column;
+  margin-bottom: 12rpx;
+}
+
+.card-container .box1 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-container .box2 {
+  width: 100%;
+  text-align: right;
+  color: #f25909;
+}
+
+.next-image {
+  width: 20rpx;
+  height: 30rpx;
+  margin-left: 15rpx;
+  vertical-align: middle;
+}
+
+.card-note {
+  vertical-align: middle;
+}
+
+.beizhu {
+  width: 640rpx;
+  text-align: left;
+  margin: 20rpx 0;
+  border: 1px solid #ebebeb;
+  border-radius: 10rpx;
+  padding: 20rpx;
+}
+
+textarea {
+  width: 640rpx;
+  height: 160rpx;
+}
+
+.conts {
+  width: 750rpx;
+  height: auto;
+  border: 1rpx soldi red;
+  margin-top: 30rpx;
+}
+
+.areas {
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 40rpx;
+}
+
+.currentWordNumber {
+  font-size: 28rpx;
+  color: gray;
+  position: absolute;
+  right: 10rpx;
+  bottom: 0;
+}
+
+.hint {
+  font-size: 28rpx;
+  position: absolute;
+  top: 120rpx;
+  left: 30rpx;
+  color: #f60;
+}
+
+/* 底部 */
+
+.footer-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  position: absolute;
+  bottom: 0;
+  background: #fff;
+  box-shadow: 0 6rpx 10rpx 2rpx rgb(126, 125, 125); /*for Android*/
+  -webkit-box-shadow: 0px 3px 5px 1px rgb(126, 125, 125); /*for IOS*/
+  overflow: hidden;
+}
+
+.text1 {
+  font-size: 30rpx;
+  padding-left: 40rpx;
+  vertical-align: middle;
+}
+
+.text2 {
+  font-size: 32rpx;
+  color: #f25909;
+  margin: 0 10rpx;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.text3 {
+  font-size: 20rpx;
+  background: #f25909;
+  color: #fff;
+  border-radius: 20rpx 12rpx 12rpx 5rpx;
+  padding: 6rpx 15rpx;
+  vertical-align: middle;
+}
+
+.footer-container button {
+  background: #f25909;
+  color: #fff;
+  font-size: 30rpx;
+  width: 220rpx !important;
+  font-weight: 400;
+  height: 100%;
+  line-height: 3.5;
+}
