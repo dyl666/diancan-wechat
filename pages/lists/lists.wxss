@@ -55,7 +55,7 @@
 .itemr .fixed {
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100%;   
 }
 
 .itemr .padTop {
