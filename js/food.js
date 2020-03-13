@@ -1,4 +1,4 @@
-export var listdata = [{
+export var foodsList = [{
     name: '店铺新品',
     foods: [{
       foodid: 11,
@@ -150,6 +150,6 @@ export var cartList = [{
 ]
 
 export default {
-  listdata,
+  foodsList,
   cartList
 }

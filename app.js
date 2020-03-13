@@ -5,6 +5,9 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+    wx.removeStorageSync('cartList');
+    wx.removeStorageSync('sumMoney');
+    wx.removeStorageSync('foodsList');
 
     // 登录
     wx.login({

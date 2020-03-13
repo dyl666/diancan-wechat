@@ -1,63 +1,99 @@
 <!--pages/orderinfo.wxml-->
 <view class="container">
-  <!-- 即时单 -->
-  <view class="time-order-container">
-    <view class="title">订单详情</view>
-    <view class="order-lists" wx:for='{{cartList}}' wx:key='unique'>
-      <view class="left">
-        <text class="food-name">{{item.name}}</text>
-        <text class="food-price">￥{{item.price}}</text>
-      </view>
-      <view class="right">
-        <button class="dec-btn">-</button>
-        <text class="num">{{item.number}}</text>
-        <button class="add-btn">+</button>
-      </view>
-    </view>
-  </view>
-  <!-- 预约单 -->
 
-
-  <!-- 商品金额 -->
-  <view class="money-container">
-    <view>商品金额</view>
-    <view>
-      ￥37.00
-    </view>
+  <!-- 订单状态 -->
+  <view class="status-container">
+    <text wx:if="{{params.status == 0}}">订单未付款</text>
+    <text wx:elif="{{params.status == 1}}">订单已完成</text>
   </view>
 
-  <!-- 优惠券 -->
-  <view class="card-container">
-    <view class="box1">
-      <view>优惠方式</view>
-      <view catchtap="cardGo">
-        <text class="card-note">暂无优惠券</text>
-        <image src="../../images/next.png" class="next-image"></image>
+
+  <view class="content">
+    <!-- 即时单 -->
+
+    <view class="time-order-container">
+      <view class="title">店铺名称</view>
+      <view class="order-lists" wx:for='{{cartList}}' wx:key='unique'>
+        <view class="left">
+          <text class="food-name">{{item.name}}</text>
+          <text class="food-price">￥{{item.price}}</text>
+        </view>
+        <view class="right" wx:if='{{params.status == 0 }}'>
+          <button class="dec-btn" catchtap="decNumber" data-index='{{index}}'>-</button>
+          <text class="num">{{item.number}}</text>
+          <button class="add-btn" catchtap="addNumber" data-index='{{index}}'>+</button>
+        </view>
+        <view wx:else>
+          <text>x  {{item.number}}</text>
+        </view>
       </view>
     </view>
-    <view class='box2'>- ￥3.00</view>
-  </view>
+    <!-- 预约单 -->
 
 
-  <!-- 备注 -->
-  <view class="card-container">
-    <view class="box1">
-      <view>备注</view>
+    <!-- 商品金额 -->
+    <view class="money-container">
+      <view>商品金额</view>
+      <view>
+        ￥37.00
+      </view>
     </view>
-    <view class="beizhu">
-      <!-- <textarea placeholder="备注口味、偏好等"></textarea> -->
-      <textarea class="areas" placeholder='备注口味、偏好等' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs">
-        <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
-        <!-- <text class="hint">{{texts}}</text> -->
-      </textarea>
+
+    <!-- 优惠券  优惠券或者店铺满减-->
+    <view class="card-container">
+      <view class="box1">
+        <view>优惠方式</view>
+        <view catchtap="cardGo">
+          <text class="card-note">暂无优惠券</text>
+          <image src="../../images/next.png" class="next-image"></image>
+        </view>
+      </view>
+      <view class='box2'>- ￥3.00</view>
     </view>
+
+
+    <!-- 备注 -->
+    <view class="beizhu-container" wx:if="{{params.status == 0 }}">
+      <view class="title"> 备注 </view>
+      <view class="beizhu">
+        <!-- <textarea placeholder="备注口味、偏好等"></textarea> -->
+        <textarea class="areas" placeholder='备注口味、偏好等' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs">
+          <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
+          <!-- <text class="hint">{{texts}}</text> -->
+        </textarea>
+      </view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="orderinfo-container" wx:else>
+      <view class=" ">
+        <view class="title">订单信息</view>
+      </view>
+      <view class="item">
+        <text>订单号</text>
+        <view>
+          <text class="b">3060 7882 6474 2912 072    |     </text>
+          <button class="blue" catchtap='copy' data-copy='3060 7882 6474 2912 072'>复制</button>
+        </view>
+      </view>
+      <view class="item">
+        <text>支付方式</text>
+        <text class="b">在线支付</text>
+      </view>
+      <view class="item">
+        <text>下单时间</text>
+        <text class="b">202-03-13 11：05</text>
+      </view>
+    </view>
+
   </view>
+
 
   <!-- 底部操作栏 -->
-  <view class="footer-container">
+  <view class="footer-container" wx:if="{{params.status == 0}}">
     <view>
       <text class="text1">合计:</text>
-      <text class="text2">￥34.00</text>
+      <text class="text2">￥{{sumMoney}}</text>
       <text class="text3">已优惠￥3.00</text>
     </view>
     <button>去结算</button>

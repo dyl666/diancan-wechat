@@ -1,6 +1,6 @@
 // pages/lists/lists.js
 import {
-  listdata,
+  foodsList,
   cartList
 } from '../../js/food.js'
 
@@ -26,7 +26,7 @@ Page({
     activeIndex: 0, // 左菜单 当前选中的index
     lastActive: 0,
     toView: 'a0', // 右列表滚动
-    listdata: listdata, // 菜单
+    foodsList: foodsList, // 菜单
     cartList: [], // 购物车数据
     carShow: false,
     heightArr: [],
@@ -55,7 +55,7 @@ Page({
   addcarTap(e) {
     let indexParent = e.currentTarget.dataset.indexParent;
     let indexChild = e.currentTarget.dataset.indexChild;
-    var obj = this.data.listdata[indexParent].foods[indexChild];
+    var obj = this.data.foodsList[indexParent].foods[indexChild];
     let sumMoney = (Number(this.data.sumMoney) + Number(obj.price)).toFixed(2);
     var addItem = {
       "foodid": obj.foodid,
@@ -83,7 +83,7 @@ Page({
       currentList.push(addItem);
     }
 
-    let curNum = 'listdata[' + indexParent + '].foods[' + indexChild + '].curNum';
+    let curNum = 'foodsList[' + indexParent + '].foods[' + indexChild + '].curNum';
     obj.curNum++;
     this.setData({
       cartList: currentList,
@@ -92,14 +92,14 @@ Page({
     });
 
   },
-  
+
   /**
    * 减少菜品购物车
    */
   deccarTap(e) {
     let indexParent = e.currentTarget.dataset.indexParent;
     let indexChild = e.currentTarget.dataset.indexChild;
-    var obj = this.data.listdata[indexParent].foods[indexChild];
+    var obj = this.data.foodsList[indexParent].foods[indexChild];
     let sumMoney = (Number(this.data.sumMoney) - Number(obj.price)).toFixed(2);
     var addItem = {
       "foodid": obj.foodid,
@@ -127,7 +127,8 @@ Page({
       currentList.push(addItem);
     }
 
-    let curNum = 'listdata[' + indexParent + '].foods[' + indexChild + '].curNum';
+    let curNum = 'foodsList[' + indexParent + '].foods[' + indexChild + '].curNum';
+    obj.curNum == 1 ? currentList.splice(index, 1) : '';
     obj.curNum--;
     this.setData({
       cartList: currentList,
@@ -145,10 +146,10 @@ Page({
 
     // 实现菜单和购物车数量联动
     var curNum = '';
-    this.data.listdata.forEach((item1, i1) => {
+    this.data.foodsList.forEach((item1, i1) => {
       item1.foods.forEach((item2, i2) => {
         if (item2.foodid == currentList[index].foodid) {
-          curNum = 'listdata[' + i1 + '].foods[' + i2 + '].curNum';
+          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
         }
       })
     })
@@ -173,26 +174,35 @@ Page({
 
     // 实现菜单和购物车数量联动
     var curNum = '';
-    this.data.listdata.forEach((item1, i1) => {
+    this.data.foodsList.forEach((item1, i1) => {
       item1.foods.forEach((item2, i2) => {
         if (item2.foodid == currentList[index].foodid) {
-          curNum = 'listdata[' + i1 + '].foods[' + i2 + '].curNum';
+          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
         }
       })
     })
-
     let sumMoney = decNum(this.data.sumMoney, currentList[index].price);
     let sum = decNum(currentList[index].sum, currentList[index].price);
     currentList[index].sum = sum;
-    // let curNum = currentList[index].number;
-    // currentList[index].number == 1 ? currentList.splice(index, 1) : currentList[index].number--;
-    currentList[index].number--;
-    this.setData({
-      cartList: currentList,
-      sumMoney: sumMoney,
-      carShow: currentList.length == 0 ? false : true,
-      [curNum]: currentList[index].number
-    });
+
+    if (currentList[index].number == 1) { // 临界值判断
+      currentList.splice(index, 1);
+      this.setData({
+        cartList: currentList,
+        sumMoney: sumMoney,
+        carShow: currentList.length == 0 ? false : true,
+        [curNum]: 0,
+      });
+    } else {
+      currentList[index].number--;
+      this.setData({
+        cartList: currentList,
+        sumMoney: sumMoney,
+        carShow: currentList.length == 0 ? false : true,
+        [curNum]: currentList[index].number
+      });
+    }
+
 
   },
 
@@ -201,7 +211,7 @@ Page({
    */
   clearCarTap() {
     this.setData({
-      listdata: listdata,
+      foodsList: foodsList,
       cartList: [],
       sumMoney: 0,
       carShow: false
@@ -242,23 +252,14 @@ Page({
       });
       return;
     }
-    let cartList = wx.getStorageSync('cartList');
-    console.log(cartList)
-    if (cartList) {
-      cartList.push(this.data.cartList);
-    } else {
-      cartList = this.data.cartList;
-    }
+    let cartList = this.data.cartList;
     wx.setStorageSync('cartList', cartList);
-    let sumMoney = wx.getStorageSync('sumMoney');
-    if (sumMoney) {
-      sumMoney.push(this.data.sumMoney);
-    } else {
-      sumMoney = this.data.sumMoney;
-    }
+    let sumMoney = this.data.sumMoney;
     wx.setStorageSync('sumMoney', sumMoney);
+    let foodsList = this.data.foodsList;
+    wx.setStorageSync('foodsList', foodsList);
     wx.navigateTo({
-      url: '../orderinfo/orderinfo',
+      url: '../orderinfo/orderinfo?status=0',
     })
   },
 
@@ -267,7 +268,74 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+
+    console.log('onload')
     this.getHeightArr();
+
+    if (this.data.cartList.length == 0) {
+      this.setData({
+        params: options
+      })
+      return;
+    }
+
+  },
+
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() { 
+    if (this.data.cartList.length > 0) {
+      this.setData({
+        cartList: wx.getStorageSync('cartList'),
+        sumMoney: wx.getStorageSync('sumMoney'),
+        foodsList: wx.getStorageSync('foodsList'),
+      })
+    }
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
   },
 
   /**
@@ -325,53 +393,4 @@ Page({
     }
 
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

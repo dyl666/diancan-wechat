@@ -1,11 +1,48 @@
 // pages/orderlist/orderlist.js
+import {
+  immediateList,
+  orderList
+} from '../../js/order.js'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    tabIndex: 0
+    tabIndex: 0,
+    immediateList: immediateList,
+    orderList: orderList
+  },
+
+  /**
+   * 删除订单
+   */
+  deleTap(e) {
+    let index = e.currentTarget.dataset.index;
+    if (this.data.tabIndex == 0) { //即时单
+      let immediateList = this.data.immediateList;
+      immediateList.splice(index, 1);
+      this.setData({
+        immediateList: immediateList
+      })
+    } else { // 预约单
+      let orderList = this.data.orderList;
+      orderList.splice(index, 1);
+      this.setData({
+        orderList: orderList
+      })
+    }
+  },
+
+  /**
+   * 付款 -- 参数 orderid
+   */
+  payTap(e) {
+    let orderid = e.currentTarget.dataset.orderid;
+    let status = e.currentTarget.dataset.status;
+    wx.navigateTo({
+      url: '../orderinfo/orderinfo?orderid=' + orderid + '&status=' + status + '&pagefrom=orderlist',
+    })
   },
 
 

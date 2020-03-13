@@ -4,7 +4,7 @@
     <!-- 左边栏 -->
     <view class='left'>
       <scroll-view scroll-y="true" style='height:{{windowHeight  }}px'>
-        <view class="iteml {{index == activeIndex?'actived':''}}" wx:for="{{listdata}}" wx:key="unique" bindtap="navTap" data-index='{{index}}'>
+        <view class="iteml {{index == activeIndex?'actived':''}}" wx:for="{{foodsList}}" wx:key="unique" bindtap="navTap" data-index='{{index}}'>
           <text class="namel">{{item.name}}</text>
         </view>
       </scroll-view>
@@ -13,7 +13,7 @@
     <view class='right'>
       <scroll-view scroll-y="true" style='height:{{windowHeight  }}px' scroll-into-view="{{toView}}" bindscroll="scroll">
         <!--  start -->
-        <view class="itemr" wx:for='{{listdata}}' wx:key="unique" id="a{{index}}">
+        <view class="itemr" wx:for='{{foodsList}}' wx:key="unique" id="a{{index}}">
           <view class="{{index == activeIndex?'fixed':''}}">
             <text class="namer">{{item.name}}</text>
           </view>
@@ -32,7 +32,7 @@
                 </view>
               </view>
             </view>
-          </view>  
+          </view>
         </view>
         <!-- end  -->
       </scroll-view>
@@ -65,7 +65,7 @@
         <text catchtap="clearCarTap">清空购物车</text>
       </view>
       <scroll-view scroll-y="true" class="{{cartList.length>5?'cart-scroll-list':''}}">
-        <view class="carlist" wx:for="{{cartList}}" wx:key="unique" wx:if="{{item.number > 0}}">
+        <view class="carlist" wx:for="{{cartList}}" wx:key="unique">
           <view style="display:flex; flex-direction: column">
             <text class="car-food-name">{{item.name}}</text>
             <!-- <text class="car-note">{{item.detail}}</text> -->

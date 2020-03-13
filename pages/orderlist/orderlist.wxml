@@ -1,85 +1,54 @@
 <!--pages/orderlist/orderlist.wxml-->
-<view>
-  <view class='go-center' style='padding:20rpx 0'>
+<view class="container">
+  <view class='go-center header' style='padding:20rpx 0'>
     <view class='tab-box'>
       <view bindtap='changeTab' data-index="0" class="go-center {{tabIndex==0?'active-color':'unactive-color'}}" style='width:50%'>即时订单</view>
       <view bindtap='changeTab' data-index="1" class="go-center {{tabIndex==1?'active-color':'unactive-color'}}" style='width:50%'>预约订单</view>
     </view>
   </view>
 
-  <view wx-if='{{tabIndex == 0}}'>
-    <view class="lists-box">
-
-      <view class="item">
+  <view wx-if='{{tabIndex == 0}}' class="content">
+    <view class="lists-box" wx:if='{{immediateList.length>0}}'>
+      <view class="item" wx:for='{{immediateList}}' wx:key='unique' catchtap="payTap" data-orderid="{{item.orderid}}" data-status='{{item.status}}'>
         <view class="left">
-          <image src='../../images/bj1.png' class='bottom-image'></image>
+          <image src='{{item.store_cover}}' class='bottom-image'></image>
         </view>
         <view class="right">
-          <text>时间：2020-03-08</text>
-          <text>地点：长治市上党区xxx店</text>
-          <text>金额：200元</text>
+          <text>时间：{{item.time}}</text>
+          <text>金额：￥{{item.money}}</text>
+          <text>地点：{{item.address}}</text>
         </view>
         <view>
-          <view class='btn-del'>删除</view>
+          <view class='btn-del' wx:if='{{item.status == 1}}' catchtap="deleTap" data-index='{{index}}'>删除</view>
+          <view class='btn-del' wx:elif='{{item.status == 0}}' style="background:#ffbc0d">去支付</view>
         </view>
       </view>
-      <view class="item">
-        <view class="left">
-          <image src='../../images/bj1.png' class='bottom-image'></image>
-        </view>
-        <view class="right">
-          <text>时间：2020-03-08</text>
-          <text>地点：长治市上党区xxx店</text>
-          <text>金额：200元</text>
-        </view>
-        <view>
-          <view class='btn-del'>删除</view>
-        </view>
+    </view>
+    <view wx:else>
+      <view class='go-center' style="margin-top:100px">
+        404
       </view>
-      <view class="item">
-        <view class="left">
-          <image src='../../images/bj1.png' class='bottom-image'></image>
-        </view>
-        <view class="right">
-          <text>时间：2020-03-08</text>
-          <text>金额：200元</text>
-          <text>地点：长治市上党区xxx店</text>
-        </view>
-        <view>
-          <view class='btn-del'>删除</view>
-        </view>
+      <view class='go-center note-btn'>目前没有即时订单</view>
+      <view class='go-center' style='margin-top:20px'>
+        <view class='go-center down-center start-btn' bindtap='golist'>开始点餐</view>
       </view>
-
     </view>
   </view>
 
-  <view wx-if='{{tabIndex == 1}}'>
+  <view wx-if='{{tabIndex == 1}}' class="content">
     <view class="lists-box">
-
-      <view class="item">
+      <view class="item" wx:for="{{orderList}}" wx:key="unique">
         <view class="left">
-          <image src='../../images/bj1.png' class='bottom-image'></image>
+          <image src='{{item.store_cover}}' class='bottom-image'></image>
         </view>
         <view class="right">
-          <text>时间：2020-03-08</text>
-          <text>人数：5</text>
-          <text>地点：长治市上党区xxx店</text>
+          <text>时间：{{item.time}}</text>
+          <text>人数：{{item.person}}人·{{item.place}}</text>
+          <text>地点：{{item.address}}</text>
         </view>
         <view>
-          <view class='btn-del'>删除</view>
-        </view>
-      </view>
-      <view class="item">
-        <view class="left">
-          <image src='../../images/bj1.png' class='bottom-image'></image>
-        </view>
-        <view class="right">
-          <text>时间：2020-03-08</text>
-          <text>人数：5</text>
-          <text>地点：长治市上党区xxx店</text>
-        </view>
-        <view>
-          <view class='btn-del'>删除</view>
+          <view class='btn-del' wx:if='{{item.status == 0}}' style="background:#ccc">等待到店</view>
+          <view class='btn-del' wx:elif='{{item.status == 1}}' catchtap="deleTap" data-index='{{index}}'>删除</view>
         </view>
       </view>
     </view>
@@ -89,11 +58,6 @@
 
 
 
-  <view class='go-center' style="margin-top:100px">
-    404
-  </view>
-  <view class='go-center note-btn'>目前没有即时订单</view>
-  <view class='go-center' style='margin-top:20px'>
-    <view class='go-center down-center start-btn' bindtap='golist'>开始点餐</view>
-  </view>
+
+
 </view>

@@ -4,11 +4,29 @@ page {
   background: #f7f7f7;
 }
 
+.status-container {
+  background: #ffbc0d;
+  font-size: 22rpx;
+  position: fixed;
+  width: 100%;
+  height: 40rpx;
+  line-height: 40rpx;
+  color: #fff;
+  z-index: 20;
+}
+
+.content {
+  width: 100%;
+  padding: 40rpx 30rpx 100rpx;
+}
+
 .time-order-container {
-  width: 94%;
+  width: 100%;
   margin-bottom: 12rpx;
+  margin-top: 15rpx;
   background: #fff;
-  padding: 0 30rpx;
+  padding: 0 20rpx;
+  border-radius: 6rpx;
 }
 
 .title {
@@ -81,9 +99,23 @@ page {
   justify-content: space-between;
   align-items: center;
   font-size: 26rpx;
-  width: 94%;
+  width: 100%;
   background: #fff;
   border-bottom: 1px solid #f7f7f7;
+  border-radius: 6rpx;
+}
+
+.beizhu-container {
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  width: 100%;
+  background: #fff;
+  flex-direction: column;
+  margin-bottom: 12rpx;
+  border-radius: 6rpx;
 }
 
 .card-container {
@@ -92,10 +124,11 @@ page {
   justify-content: space-between;
   align-items: center;
   font-size: 26rpx;
-  width: 94%;
+  width: 100%;
   background: #fff;
   flex-direction: column;
   margin-bottom: 12rpx;
+  border-radius: 6rpx;
 }
 
 .card-container .box1 {
@@ -127,7 +160,6 @@ page {
   width: 640rpx;
   text-align: left;
   margin: 20rpx 0;
-  border: 1px solid #ebebeb;
   border-radius: 10rpx;
   padding: 20rpx;
 }
@@ -147,6 +179,11 @@ textarea {
 .areas {
   overflow: hidden;
   position: relative;
+  border: 1px solid #ebebeb;
+  width: 100%;
+  border-radius: 6rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
   padding-bottom: 40rpx;
 }
 
@@ -175,12 +212,13 @@ textarea {
   align-items: center;
   height: 100rpx;
   line-height: 100rpx;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background: #fff;
   box-shadow: 0 6rpx 10rpx 2rpx rgb(126, 125, 125); /*for Android*/
   -webkit-box-shadow: 0px 3px 5px 1px rgb(126, 125, 125); /*for IOS*/
   overflow: hidden;
+  z-index: 20;
 }
 
 .text1 {
@@ -214,4 +252,39 @@ textarea {
   font-weight: 400;
   height: 100%;
   line-height: 3.5;
+}
+
+/* ************** */
+
+.orderinfo-container {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  background: #fff;
+  border-radius: 6rpx;
+  padding: 0 20rpx;
+}
+
+.orderinfo-container .item {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f7f7f7;
+  padding: 20rpx 0;
+  font-size: 26rpx;
+}
+
+.b {
+  color: #888;
+  font-size: 24rpx;
+}
+
+.blue {
+  color: rgb(19, 113, 235);
+  font-size: 24rpx;
+  width: auto !important;
+  display: inline-block;
+  vertical-align: middle;
 }
