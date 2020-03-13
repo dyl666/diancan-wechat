@@ -49,7 +49,7 @@
 }
 
 .itemr:last-child {
-  padding-bottom: 120rpx;
+  padding-bottom: 50rpx;
 }
 
 .itemr .fixed {

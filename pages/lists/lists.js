@@ -46,30 +46,13 @@ Page({
     })
   },
 
-  /**
-   * 点击购物车
-   */
-  carTap() {
-    if (this.data.sumMoney == 0 || this.data.cartList.length == 0) {
-      wx.showToast({
-        title: '请选择菜品',
-        icon: 'none',
-        duration: 2000,
-      });
-      return;
-    }
-    let carShow = !this.data.carShow;
-    this.setData({
-      carShow: carShow
-    })
-  },
+
 
   /**
    * 添加菜品购物车
    */
 
   addcarTap(e) {
-    console.log(e)
     let indexParent = e.currentTarget.dataset.indexParent;
     let indexChild = e.currentTarget.dataset.indexChild;
     var obj = this.data.listdata[indexParent].foods[indexChild];
@@ -111,11 +94,65 @@ Page({
   },
 
   /**
+   * 减少菜品购物车
+   */
+  deccarTap(e) {
+    let indexParent = e.currentTarget.dataset.indexParent;
+    let indexChild = e.currentTarget.dataset.indexChild;
+    var obj = this.data.listdata[indexParent].foods[indexChild];
+    let sumMoney = (Number(this.data.sumMoney) - Number(obj.price)).toFixed(2);
+    var addItem = {
+      "foodid": obj.foodid,
+      "name": obj.name,
+      "price": obj.price,
+      "detail": obj.description,
+      "number": 1,
+      "sum": obj.price, // 此处添加是单个添加，直接放入单价即可
+      "curNum": 1
+    }
+    var index = -1;
+
+    this.data.cartList.forEach((item, i) => { // 判断购物车中是否已经有当前选择菜品
+      if (item.foodid == obj.foodid) {
+        index = i;
+      }
+    })
+
+    let currentList = this.data.cartList;
+
+    if (index != -1) {
+      currentList[index].number = this.data.cartList[index].number - 1;
+      currentList[index].sum = mulNum(addItem.price, currentList[index].number);
+    } else {
+      currentList.push(addItem);
+    }
+
+    let curNum = 'listdata[' + indexParent + '].foods[' + indexChild + '].curNum';
+    obj.curNum--;
+    this.setData({
+      cartList: currentList,
+      sumMoney: sumMoney,
+      [curNum]: obj.curNum
+    });
+  },
+
+  /**
    * 菜品增加
    */
   addNumber(e) {
     var index = e.currentTarget.dataset.index;
     var currentList = this.data.cartList;
+
+    // 实现菜单和购物车数量联动
+    var curNum = '';
+    this.data.listdata.forEach((item1, i1) => {
+      item1.foods.forEach((item2, i2) => {
+        if (item2.foodid == currentList[index].foodid) {
+          curNum = 'listdata[' + i1 + '].foods[' + i2 + '].curNum';
+        }
+      })
+    })
+
     let sumMoney = addNum(this.data.sumMoney, currentList[index].price); // 购物车总价 
     let sum = addNum(currentList[index].sum, currentList[index].price); // 单条菜品的总价
     currentList[index].sum = sum;
@@ -123,6 +160,7 @@ Page({
     this.setData({
       cartList: currentList,
       sumMoney: sumMoney,
+      [curNum]: currentList[index].number
     });
   },
 
@@ -132,14 +170,28 @@ Page({
   decNumber(e) {
     var index = e.currentTarget.dataset.index;
     var currentList = this.data.cartList;
+
+    // 实现菜单和购物车数量联动
+    var curNum = '';
+    this.data.listdata.forEach((item1, i1) => {
+      item1.foods.forEach((item2, i2) => {
+        if (item2.foodid == currentList[index].foodid) {
+          curNum = 'listdata[' + i1 + '].foods[' + i2 + '].curNum';
+        }
+      })
+    })
+
     let sumMoney = decNum(this.data.sumMoney, currentList[index].price);
     let sum = decNum(currentList[index].sum, currentList[index].price);
     currentList[index].sum = sum;
-    currentList[index].number == 1 ? currentList.splice(index, 1) : currentList[index].number--;
+    // let curNum = currentList[index].number;
+    // currentList[index].number == 1 ? currentList.splice(index, 1) : currentList[index].number--;
+    currentList[index].number--;
     this.setData({
       cartList: currentList,
       sumMoney: sumMoney,
-      carShow: currentList.length == 0 ? false : true
+      carShow: currentList.length == 0 ? false : true,
+      [curNum]: currentList[index].number
     });
 
   },
@@ -149,15 +201,37 @@ Page({
    */
   clearCarTap() {
     this.setData({
+      listdata: listdata,
       cartList: [],
       sumMoney: 0,
       carShow: false
     })
   },
 
+
+  /**
+   * 点击购物车
+   */
+  carTap(e) {
+    let type = e.currentTarget.dataset.type;
+    if (type != 'close') {
+      if (this.data.sumMoney == 0 || this.data.cartList.length == 0) {
+        wx.showToast({
+          title: '请选择菜品',
+          icon: 'none',
+          duration: 2000,
+        });
+        return;
+      }
+    }
+    let carShow = !this.data.carShow;
+    this.setData({
+      carShow: carShow
+    })
+  },
+
   /**
    * 去下单
-   * 下单请求接口，注意多人同时点一桌的菜单
    */
   orderinfoGo() {
     if (this.data.sumMoney == 0 || this.data.cartList.length == 0) {
@@ -168,8 +242,21 @@ Page({
       });
       return;
     }
-    wx.setStorageSync('cartList', this.data.cartList);
-    wx.setStorageSync('sumMoney', this.data.sumMoney);
+    let cartList = wx.getStorageSync('cartList');
+    console.log(cartList)
+    if (cartList) {
+      cartList.push(this.data.cartList);
+    } else {
+      cartList = this.data.cartList;
+    }
+    wx.setStorageSync('cartList', cartList);
+    let sumMoney = wx.getStorageSync('sumMoney');
+    if (sumMoney) {
+      sumMoney.push(this.data.sumMoney);
+    } else {
+      sumMoney = this.data.sumMoney;
+    }
+    wx.setStorageSync('sumMoney', sumMoney);
     wx.navigateTo({
       url: '../orderinfo/orderinfo',
     })
