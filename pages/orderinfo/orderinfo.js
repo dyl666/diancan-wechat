@@ -2,12 +2,14 @@
 import {
   addNum,
   decNum,
-  mulNum
+  mulNum,
+  formatTime
 } from '../../utils/util.js'
 
 import {
   foodsList,
 } from '../../js/food.js'
+
 
 Page({
 
@@ -16,94 +18,104 @@ Page({
    */
   data: {
     cartList: [],
-    sumMoney: 0,
-    cutMonney: 0,
+    orderData: {},
+    store: {},
     texts: "至少5个字",
     min: 5, //最少字数
     max: 200, //最多字数 (根据自己需求改变)
-    params: {}
+    params: {},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
+    var currentOrder = {};
+    if (options.pagefrom == 'car') {
+      currentOrder = wx.getStorageSync('currentOrder') ? wx.getStorageSync('currentOrder') : {};
+    } else {
+      currentOrder = wx.getStorageSync('immediateList')[options.index];
+      console.log(currentOrder)
+    }
     this.setData({
-      cartList: wx.getStorageSync('cartList'),
-      sumMoney: wx.getStorageSync('sumMoney'),
+      cartList: currentOrder.cartList,
+      orderData: currentOrder.order,
       foodsList: wx.getStorageSync('foodsList'),
+      store: wx.getStorageSync('store'),
       params: options
     })
 
+
   },
 
 
   /**
-   * 菜品增加
+   * 去结算
    */
-  addNumber(e) {
-    var index = e.currentTarget.dataset.index;
-    var currentList = this.data.cartList;
-
-    // 实现菜单和购物车数量联动
-    var curNum = '';
-    this.data.foodsList.forEach((item1, i1) => {
-      item1.foods.forEach((item2, i2) => {
-        if (item2.foodid == currentList[index].foodid) {
-          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
-        }
-      })
-    })
-
-    let sumMoney = addNum(this.data.sumMoney, currentList[index].price); // 购物车总价 
-    let sum = addNum(currentList[index].sum, currentList[index].price); // 单条菜品的总价
-    currentList[index].sum = sum;
-    currentList[index].number++;
-    this.setData({
-      cartList: currentList,
-      sumMoney: sumMoney,
-      [curNum]: currentList[index].number
-    });
-  },
-
-  /**
-   * 菜品减少
-   */
-  decNumber(e) {
-    var index = e.currentTarget.dataset.index;
-    var currentList = this.data.cartList;
-
-    // 实现菜单和购物车数量联动
-    var curNum = '';
-    this.data.foodsList.forEach((item1, i1) => {
-      item1.foods.forEach((item2, i2) => {
-        if (item2.foodid == currentList[index].foodid) {
-          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
-        }
-      })
-    })
-
-    let sumMoney = decNum(this.data.sumMoney, currentList[index].price);
-    let sum = decNum(currentList[index].sum, currentList[index].price);
-    currentList[index].sum = sum;
-
-    if (currentList[index].number == 1) { // 临界值判断
-      currentList.splice(index, 1);
-      this.setData({
-        cartList: currentList,
-        sumMoney: sumMoney,
-        [curNum]: 0,
-      });
-    } else {
-      currentList[index].number--;
-      this.setData({
-        cartList: currentList,
-        sumMoney: sumMoney,
-        [curNum]: currentList[index].number
-      });
+  payGo() {
+    var that = this;
+    let currentOrder = {
+      cartList: this.data.cartList,
+      order: this.data.orderData,
+      store: this.data.store,
     }
+    currentOrder.order.pay_time = formatTime(new Date);
+    wx.login({
+      success: res => { // 获取code  
+        // var orderResult = res.data;   
+        let immediateList = !wx.getStorageSync('immediateList') ? [] : wx.getStorageSync('immediateList');
+        currentOrder.order.order_status = 1; // 支付成功后修改状态
+        immediateList.push(currentOrder);
+        wx.setStorage({
+          key: 'immediateList',
+          data: immediateList,
+          success: res => {
+            this.setData({
+              cartList: [],
+              foodsList: foodsList,
+              'orderData.order_note': '',
+              'orderData.sumMoney': 0
+            })
+            wx.showToast({
+              title: '支付成功',
+            })
+            setTimeout(function() {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1000)
+          },
+          fail: err => {
+            wx.showToast({
+              title: '支付失败',
+            })
+          }
+        })
+      }
+    })
 
+  },
+
+  /**
+   * 加菜
+   */
+  addfoodTap() {
+    wx.navigateTo({
+      url: '../car/car',
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+    let currentOrder = {
+      cartList: this.data.cartList,
+      order: this.data.orderData,
+    };
+    wx.setStorageSync('currentOrder', currentOrder);
+    let foodsList = this.data.foodsList;
+    wx.setStorageSync('foodsList', foodsList);
   },
 
   cardGo() {
@@ -156,8 +168,75 @@ Page({
     if (len > this.data.max) return;
     // 当输入框内容的长度大于最大长度限制（max)时，终止setData()的执行
     this.setData({
-      currentWordNumber: len //当前字数  
+      currentWordNumber: len, //当前字数  
+      'orderData.order_note': value
     });
+  },
+
+  /**
+   * 菜品增加
+   */
+  addNumber(e) {
+    var index = e.currentTarget.dataset.index;
+    var currentList = this.data.cartList;
+
+    // 实现菜单和购物车数量联动
+    var curNum = '';
+    this.data.foodsList.forEach((item1, i1) => {
+      item1.foods.forEach((item2, i2) => {
+        if (item2.foodid == currentList[index].foodid) {
+          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
+        }
+      })
+    })
+    let sumMoney = addNum(this.data.orderData.sumMoney, currentList[index].price); // 购物车总价 
+    let sum = addNum(currentList[index].sum, currentList[index].price); // 单条菜品的总价
+    currentList[index].sum = sum;
+    currentList[index].number++;
+    this.setData({
+      cartList: currentList,
+      'orderData.sumMoney': sumMoney,
+      [curNum]: currentList[index].number
+    });
+  },
+
+  /**
+   * 菜品减少
+   */
+  decNumber(e) {
+    var index = e.currentTarget.dataset.index;
+    var currentList = this.data.cartList;
+
+    // 实现菜单和购物车数量联动
+    var curNum = '';
+    this.data.foodsList.forEach((item1, i1) => {
+      item1.foods.forEach((item2, i2) => {
+        if (item2.foodid == currentList[index].foodid) {
+          curNum = 'foodsList[' + i1 + '].foods[' + i2 + '].curNum';
+        }
+      })
+    })
+
+    let sumMoney = decNum(this.data.orderData.sumMoney, currentList[index].price);
+    let sum = decNum(currentList[index].sum, currentList[index].price);
+    currentList[index].sum = sum;
+
+    if (currentList[index].number == 1) { // 临界值判断
+      currentList.splice(index, 1);
+      this.setData({
+        cartList: currentList,
+        'orderData.sumMoney': sumMoney,
+        [curNum]: 0,
+      });
+    } else {
+      currentList[index].number--;
+      this.setData({
+        cartList: currentList,
+        'orderData.sumMoney': sumMoney,
+        [curNum]: currentList[index].number
+      });
+    }
+
   },
 
   /**
@@ -181,17 +260,7 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-    let cartList = this.data.cartList;
-    let sumMoney = this.data.sumMoney;
-    let foodsList = this.data.foodsList;
-    wx.setStorageSync('cartList', cartList);
-    wx.setStorageSync('sumMoney', sumMoney);
-    wx.setStorageSync('foodsList', foodsList);
-  },
+
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作

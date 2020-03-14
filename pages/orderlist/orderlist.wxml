@@ -9,24 +9,24 @@
 
   <view wx-if='{{tabIndex == 0}}' class="content">
     <view class="lists-box" wx:if='{{immediateList.length>0}}'>
-      <view class="item" wx:for='{{immediateList}}' wx:key='unique' catchtap="payTap" data-orderid="{{item.orderid}}" data-status='{{item.status}}'>
+      <view class="item" wx:for='{{immediateList}}' wx:key='unique' catchtap="payTap" data-index='{{index}}' >
         <view class="left">
-          <image src='{{item.store_cover}}' class='bottom-image'></image>
+          <image src='{{item.store.store_cover}}' class='bottom-image'></image>
         </view>
         <view class="right">
-          <text>时间：{{item.time}}</text>
-          <text>金额：￥{{item.money}}</text>
-          <text>地点：{{item.address}}</text>
+          <text>时间：{{item.order.order_time}}</text>
+          <text>金额：￥{{item.order.sumMoney}}</text>
+          <text>地点：{{item.store.address}}</text>
         </view>
         <view>
-          <view class='btn-del' wx:if='{{item.status == 1}}' catchtap="deleTap" data-index='{{index}}'>删除</view>
-          <view class='btn-del' wx:elif='{{item.status == 0}}' style="background:#ffbc0d">去支付</view>
+          <view class='btn-del' wx:if='{{item.order.order_status == 1}}' catchtap="deleTap" data-index='{{index}}'>删除</view>
+          <view class='btn-del' wx:elif='{{item.order.order_status == 0}}' style="background:#ffbc0d">去支付</view>
         </view>
       </view>
     </view>
     <view wx:else>
       <view class='go-center' style="margin-top:100px">
-        404
+        <!-- 404 -->
       </view>
       <view class='go-center note-btn'>目前没有即时订单</view>
       <view class='go-center' style='margin-top:20px'>

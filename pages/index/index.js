@@ -31,7 +31,7 @@ Page({
   // 点餐
   orderGo: function() {
     wx.navigateTo({
-      url: '../lists/lists'
+      url: '../car/car'
     })
   },
   onLoad: function() {

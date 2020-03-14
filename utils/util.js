@@ -5,8 +5,8 @@ const formatTime = date => {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  let time = [year, month, day].map(formatNumber).join('/') + '  ' + [hour, minute, second].map(formatNumber).join(':');
+  return time;
 }
 
 const formatNumber = n => {
@@ -110,6 +110,24 @@ function mulNum(num1, num2) {
   return val;
 }
 
+
+/**随机数 */
+function rondomPass(number) {
+  var arr = new Array;
+  var arr1 = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+
+  for (var i = 0; i < number; i++) {
+    var n = Math.floor(Math.random() * 10);
+    arr[i] = arr1[n];
+    //document.write(arr1[n]);    
+  }
+
+  let val = arr.join("")
+  //document.write(val);
+  return val;
+
+}
+
 module.exports = {
   formatTime,
   floatAdd,
@@ -118,6 +136,7 @@ module.exports = {
   floatDiv,
   addNum,
   decNum,
-  mulNum
+  mulNum,
+  rondomPass
 
 }

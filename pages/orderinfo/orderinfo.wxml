@@ -3,8 +3,8 @@
 
   <!-- 订单状态 -->
   <view class="status-container">
-    <text wx:if="{{params.status == 0}}">订单未付款</text>
-    <text wx:elif="{{params.status == 1}}">订单已完成</text>
+    <text wx:if="{{orderData.order_status == 0}}">订单未付款</text>
+    <text wx:elif="{{orderData.order_status == 1}}">订单已完成</text>
   </view>
 
 
@@ -12,13 +12,13 @@
     <!-- 即时单 -->
 
     <view class="time-order-container">
-      <view class="title">店铺名称</view>
+      <view class="title">{{store.name}} ({{cartList.length}}件)</view>
       <view class="order-lists" wx:for='{{cartList}}' wx:key='unique'>
         <view class="left">
           <text class="food-name">{{item.name}}</text>
           <text class="food-price">￥{{item.price}}</text>
         </view>
-        <view class="right" wx:if='{{params.status == 0 }}'>
+        <view class="right" wx:if='{{orderData.order_status == 0 }}'>
           <button class="dec-btn" catchtap="decNumber" data-index='{{index}}'>-</button>
           <text class="num">{{item.number}}</text>
           <button class="add-btn" catchtap="addNumber" data-index='{{index}}'>+</button>
@@ -35,7 +35,7 @@
     <view class="money-container">
       <view>商品金额</view>
       <view>
-        ￥37.00
+        ￥{{orderData.sumMoney}}
       </view>
     </view>
 
@@ -53,11 +53,11 @@
 
 
     <!-- 备注 -->
-    <view class="beizhu-container" wx:if="{{params.status == 0 }}">
+    <view class="beizhu-container" wx:if="{{orderData.order_status == 0 }}">
       <view class="title"> 备注 </view>
       <view class="beizhu">
         <!-- <textarea placeholder="备注口味、偏好等"></textarea> -->
-        <textarea class="areas" placeholder='备注口味、偏好等' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs">
+        <textarea class="areas" placeholder='备注口味、偏好等' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs" value="{{order_note}}">
           <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
           <!-- <text class="hint">{{texts}}</text> -->
         </textarea>
@@ -90,13 +90,16 @@
 
 
   <!-- 底部操作栏 -->
-  <view class="footer-container" wx:if="{{params.status == 0}}">
+  <view class="footer-container" wx:if="{{params.pagefrom == 'car'}}">
     <view>
       <text class="text1">合计:</text>
-      <text class="text2">￥{{sumMoney}}</text>
+      <text class="text2">￥{{orderData.sumMoney}}</text>
       <text class="text3">已优惠￥3.00</text>
     </view>
-    <button>去结算</button>
+    <view class="btn-box">
+      <button bindtap="addfoodTap" style="border-right:1px solid #bbb" wx:if='{{params.pagefrom != "car"}}'>加菜</button>
+      <button bindtap="payGo">去结算</button>
+    </view>
   </view>
 
 </view>

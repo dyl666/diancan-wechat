@@ -1,4 +1,4 @@
-<!--pages/lists/lists.wxml-->
+<!--pages/car/car.wxml-->
 <view class="container">
   <view class="content">
     <!-- 左边栏 -->
@@ -17,7 +17,7 @@
           <view class="{{index == activeIndex?'fixed':''}}">
             <text class="namer">{{item.name}}</text>
           </view>
-          <view class="{{index == activeIndex?'padTop':''}} food-item" wx:for='{{item.foods}}' wx:key="unique" wx:for-index="indexs">
+          <view class="food-item" wx:for='{{item.foods}}' wx:key="unique" wx:for-index="indexs">
             <view>
               <image src='../../images/food.png' class="foods-image"></image>
             </view>
@@ -46,14 +46,14 @@
   <!-- 底部栏 -->
   <view class="car-container">
     <view class="gouwuche">
-      <image src='../../images/car.png' class="car-image" wx:if='{{sumMoney<= 0}}' catchtap="carTap"> </image>
+      <image src='../../images/car.png' class="car-image" wx:if='{{cartList.length == 0}}' catchtap="carTap"> </image>
       <image src='../../images/cared.png' class="car-image" wx:else catchtap="carTap"> </image>
-      <text class="car-price" wx:if='{{sumMoney<= 0}}'>购物车是空的</text>
+      <text class="car-price" wx:if='{{cartList.length == 0}}'>购物车是空的</text>
       <text class="car-price" wx:else style="color:#fff">￥{{sumMoney}}</text>
       <!-- <text>￥10.00</text> -->
-      <text class="number-msg" wx:if='{{sumMoney>0}}'>{{cartList.length}}</text>
+      <text class="number-msg" wx:if='{{cartList.length > 0}}'>{{cartList.length}}</text>
     </view>
-    <button class="car-btn {{sumMoney>0?'car-btn-ed':'' }}" catchtap='orderinfoGo'>去下单</button>
+    <button class="car-btn {{cartList.length>0?'car-btn-ed':'' }}" catchtap='orderinfoGo'>去下单</button>
   </view>
 
   <!-- 购物车详细列表 -->

@@ -69,8 +69,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/lists/lists",
-					"pathName": "pages/lists/lists",
+					"name": "pages/car/car",
+					"pathName": "pages/car/car",
 					"query": "",
 					"scene": null
 				},

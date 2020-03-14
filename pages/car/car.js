@@ -1,21 +1,21 @@
-// pages/lists/lists.js
+// pages/car/car.js
 import {
   foodsList,
   cartList
 } from '../../js/food.js'
 
 import {
-  floatAdd,
-  floatSub,
-  floatMul,
   addNum,
   decNum,
-  mulNum
+  mulNum,
+  formatTime,
+  rondomPass
 } from '../../utils/util.js'
 
 // console.log(floatAdd(1.09, 2.02))
 // console.log(floatSub(2.02, 1.09))
-// console.log(floatMul(1.09, 2.02)) 
+// console.log(floatMul(1.09, 2.02))   
+
 
 Page({
 
@@ -243,8 +243,8 @@ Page({
   /**
    * 去下单
    */
-  orderinfoGo() {
-    if (this.data.sumMoney == 0 || this.data.cartList.length == 0) {
+  orderinfoGo(type) {
+    if ((this.data.sumMoney == 0 || this.data.cartList.length == 0) && type != 'back') {
       wx.showToast({
         title: '请选择菜品',
         icon: 'none',
@@ -252,15 +252,27 @@ Page({
       });
       return;
     }
-    let cartList = this.data.cartList;
-    wx.setStorageSync('cartList', cartList);
-    let sumMoney = this.data.sumMoney;
-    wx.setStorageSync('sumMoney', sumMoney);
     let foodsList = this.data.foodsList;
     wx.setStorageSync('foodsList', foodsList);
-    wx.navigateTo({
-      url: '../orderinfo/orderinfo?status=0',
-    })
+    let immediateList = wx.getStorageSync('immediateList');
+    let currentOrder = {
+      cartList: this.data.cartList,
+      order: {
+        order_id: immediateList.length > 0 ? immediateList[immediateList.length - 1].orderid + 1 : 1,
+        order_time: formatTime(new Date), // 下单时间
+        order_number: rondomPass(15), //订单编号
+        order_status: 0, // 0等待付款 1付款成功 
+        sumMoney: this.data.sumMoney,
+        cutMoney: 0,
+      },
+    };
+    wx.setStorageSync('currentOrder', currentOrder);
+    if (type != 'back') {
+      wx.navigateTo({
+        url: '../orderinfo/orderinfo?pagefrom=car',
+      })
+    }
+
   },
 
 
@@ -269,7 +281,6 @@ Page({
    */
   onLoad: function(options) {
 
-    console.log('onload')
     this.getHeightArr();
 
     if (this.data.cartList.length == 0) {
@@ -292,15 +303,14 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() { 
-    if (this.data.cartList.length > 0) {
-      this.setData({
-        cartList: wx.getStorageSync('cartList'),
-        sumMoney: wx.getStorageSync('sumMoney'),
-        foodsList: wx.getStorageSync('foodsList'),
-      })
-    }
-
+  onShow: function() {
+    let currentOrder = wx.getStorageSync('currentOrder');
+    let foodsListStorage = wx.getStorageSync('foodsList');
+    this.setData({
+      cartList: currentOrder ? currentOrder.cartList : [],
+      sumMoney: currentOrder ? currentOrder.order.sumMoney : 0,
+      foodsList: foodsListStorage ? foodsListStorage : foodsList,
+    })
   },
 
   /**
@@ -313,8 +323,8 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
-
+  onUnload: function(e) {
+    this.orderinfoGo('back'); // 页面返回的时候保存购物车信息
   },
 
   /**

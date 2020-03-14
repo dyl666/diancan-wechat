@@ -1,6 +1,5 @@
 // pages/orderlist/orderlist.js
 import {
-  immediateList,
   orderList
 } from '../../js/order.js'
 Page({
@@ -10,7 +9,7 @@ Page({
    */
   data: {
     tabIndex: 0,
-    immediateList: immediateList,
+    immediateList: [],
     orderList: orderList
   },
 
@@ -25,6 +24,7 @@ Page({
       this.setData({
         immediateList: immediateList
       })
+      wx.setStorageSync('immediateList', immediateList); // 更新数据库
     } else { // 预约单
       let orderList = this.data.orderList;
       orderList.splice(index, 1);
@@ -38,10 +38,9 @@ Page({
    * 付款 -- 参数 orderid
    */
   payTap(e) {
-    let orderid = e.currentTarget.dataset.orderid;
-    let status = e.currentTarget.dataset.status;
+    let index = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../orderinfo/orderinfo?orderid=' + orderid + '&status=' + status + '&pagefrom=orderlist',
+      url: '../orderinfo/orderinfo?index=' + Number(index),
     })
   },
 
@@ -52,9 +51,11 @@ Page({
       tabIndex: index,
     })
   },
+
+
   golist: function() {
     wx.navigateTo({
-      url: '../../list/list'
+      url: '../car/car'
     })
   },
 
@@ -62,6 +63,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+
 
   },
 
@@ -76,7 +78,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    this.setData({
+      immediateList: wx.getStorageSync('immediateList')
+    })
   },
 
   /**

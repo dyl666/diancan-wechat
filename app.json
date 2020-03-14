@@ -6,7 +6,7 @@
     "pages/orderlist/orderlist",
     "pages/orderinfo/orderinfo",
     "pages/card/card",
-    "pages/lists/lists"
+    "pages/car/car"
   ],
   "window": {
     "backgroundTextStyle": "light",
