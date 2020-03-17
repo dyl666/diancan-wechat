@@ -258,7 +258,7 @@ Page({
     let currentOrder = {
       cartList: this.data.cartList,
       order: {
-        order_id: immediateList.length > 0 ? immediateList[immediateList.length - 1].orderid + 1 : 1,
+        order_id: immediateList.length > 0 ? immediateList[immediateList.length - 1].order_id + 1 : 1,
         order_time: formatTime(new Date), // 下单时间
         order_number: rondomPass(15), //订单编号
         order_status: 0, // 0等待付款 1付款成功 

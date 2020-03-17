@@ -39,8 +39,9 @@ Page({
    */
   payTap(e) {
     let index = e.currentTarget.dataset.index;
+    let order_id = e.currentTarget.dataset.orderId;
     wx.navigateTo({
-      url: '../orderinfo/orderinfo?index=' + Number(index),
+      url: '../orderinfo/orderinfo?index=' + Number(index) + '&order_id=' + order_id,
     })
   },
 

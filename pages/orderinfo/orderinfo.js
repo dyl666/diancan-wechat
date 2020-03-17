@@ -24,6 +24,7 @@ Page({
     min: 5, //最少字数
     max: 200, //最多字数 (根据自己需求改变)
     params: {},
+    index: -1,
   },
 
   /**
@@ -35,16 +36,17 @@ Page({
       currentOrder = wx.getStorageSync('currentOrder') ? wx.getStorageSync('currentOrder') : {};
     } else {
       currentOrder = wx.getStorageSync('immediateList')[options.index];
-      console.log(currentOrder)
     }
     this.setData({
       cartList: currentOrder.cartList,
       orderData: currentOrder.order,
       foodsList: wx.getStorageSync('foodsList'),
       store: wx.getStorageSync('store'),
-      params: options
+      params: options,
+      index: options.index
     })
 
+console.log(this.data.orderData)
 
   },
 
@@ -52,7 +54,7 @@ Page({
   /**
    * 去结算
    */
-  payGo() {
+  payGo(type = '') {
     var that = this;
     let currentOrder = {
       cartList: this.data.cartList,
@@ -60,38 +62,47 @@ Page({
       store: this.data.store,
     }
     currentOrder.order.pay_time = formatTime(new Date);
-    wx.login({
-      success: res => { // 获取code  
-        // var orderResult = res.data;   
-        let immediateList = !wx.getStorageSync('immediateList') ? [] : wx.getStorageSync('immediateList');
-        currentOrder.order.order_status = 1; // 支付成功后修改状态
-        immediateList.push(currentOrder);
-        wx.setStorage({
-          key: 'immediateList',
-          data: immediateList,
-          success: res => {
-            this.setData({
-              cartList: [],
-              foodsList: foodsList,
-              'orderData.order_note': '',
-              'orderData.sumMoney': 0
-            })
-            wx.showToast({
-              title: '支付成功',
-            })
-            setTimeout(function() {
-              wx.navigateBack({
-                delta: 1
-              })
-            }, 1000)
-          },
-          fail: err => {
-            wx.showToast({
-              title: '支付失败',
-            })
-          }
+    let immediateList = !wx.getStorageSync('immediateList') ? [] : wx.getStorageSync('immediateList');
+
+    if (this.data.index >= 0) {
+      immediateList.splice(this.data.index, 1);
+    }
+
+    if (type == 'back') { // 点击返回保存订单信息 
+      immediateList.push(currentOrder);
+      wx.setStorageSync('immediateList', immediateList);
+      return;
+    }
+
+    currentOrder.order.order_status = 1; // 支付成功后修改状态 
+    immediateList.push(currentOrder);
+
+
+    wx.setStorage({
+      key: 'immediateList',
+      data: immediateList,
+      success: res => {
+        this.setData({
+          cartList: [],
+          foodsList: foodsList,
+          'orderData.order_note': '',
+          'orderData.sumMoney': 0
+        })
+        wx.showToast({
+          title: '支付成功',
+        })
+        setTimeout(function() {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 1000)
+      },
+      fail: err => {
+        wx.showToast({
+          title: '支付失败',
         })
       }
+
     })
 
   },
@@ -109,11 +120,16 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
+
+    this.payGo('back');
+
     let currentOrder = {
       cartList: this.data.cartList,
       order: this.data.orderData,
     };
-    wx.setStorageSync('currentOrder', currentOrder);
+
+    wx.setStorageSync('currentOrder', currentOrder); 
+
     let foodsList = this.data.foodsList;
     wx.setStorageSync('foodsList', foodsList);
   },
