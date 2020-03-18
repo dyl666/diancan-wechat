@@ -1,29 +1,46 @@
 <!--index.wxml-->
-<view class="container" >
+<view class="container">
 
   <!-- 顶部轮播图 -->
-  <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="swiper-box">
+  <!-- <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="swiper-box">
     <block wx:for="{{imgUrls}}" wx:key="unique">
       <swiper-item class='swiper-item'>
         <image src="{{item}}" class="slide-image" />
       </swiper-item>
     </block>
-  </swiper>
+  </swiper> -->
 
-  <view class="group">
-    <icon type="success" size="50" color="#fff" />
-    <text class="title">开始点餐</text>
+  <view class="logo-box">
+    <image src='../../images/logo.png' class="img-logo"></image>
+    <text class="wifi-name">WIFI：shaokao</text>
+    <text class="wifi-paw">密码：zhenhaochi</text>
   </view>
 
-  <view class="group">
-    <icon type="success" size="50" color="#fff" />
-    <text class="title">提前预约</text>
+  <view class="group" bindtap='orderGo'>
+    <view class="text-box">
+      <text class="text1">开始点餐</text>
+      <text class="text2">Ordering Food</text>
+    </view>
+    <image src='../../images/person.png' class="img-home"></image>
   </view>
 
-  <view class="group">
-    <icon type="success" size="50" color="#fff" />
-    <text class="title">排队等待</text>
+  <view class="group" bindtap='beforeOrderGo'>
+    <view class="text-box">
+      <text class="text1">提前预约</text>
+      <text class="text2">Advance appointment</text>
+    </view>
+    <image src='../../images/person.png' class="img-home"></image>
   </view>
+
+  <view class="group" bindtap='waitGo'>
+    <view class="text-box">
+      <text class="text1">排队等待</text>
+      <text class="text2">Wait in Line</text>
+    </view>
+    <image src='../../images/person.png' class="img-home"></image>
+  </view>
+
+
 
   <!-- <image src='../../images/home1.png' class='home-image'></image> -->
 

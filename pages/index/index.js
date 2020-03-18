@@ -40,6 +40,20 @@ Page({
       url: '../car/car'
     })
   },
+  // 提前预定
+  beforeOrderGo: function() {
+    wx.showToast({
+      icon: 'none',
+      title: '此功能暂未开放',
+    })
+  },
+  // 排队等待
+  waitGo: function() {
+    wx.showToast({
+      icon: 'none',
+      title: '此功能暂未开放',
+    })
+  },
   onLoad: function() {
     if (app.globalData.userInfo) {
       this.setData({
