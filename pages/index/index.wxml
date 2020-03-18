@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container" >
 
   <!-- 顶部轮播图 -->
   <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="swiper-box">
@@ -10,10 +10,25 @@
     </block>
   </swiper>
 
-  <image src='../../images/home1.png' class='home-image'></image>
+  <view class="group">
+    <icon type="success" size="50" color="#fff" />
+    <text class="title">开始点餐</text>
+  </view>
+
+  <view class="group">
+    <icon type="success" size="50" color="#fff" />
+    <text class="title">提前预约</text>
+  </view>
+
+  <view class="group">
+    <icon type="success" size="50" color="#fff" />
+    <text class="title">排队等待</text>
+  </view>
+
+  <!-- <image src='../../images/home1.png' class='home-image'></image> -->
 
   <!-- 按钮功能 -->
-  <view class='btn-bar'>
+  <!-- <view class='btn-bar'>
     <view class='btn-block' bindtap='orderGo'>
       <view class="btn_op btn_op1">开始点餐</view>
     </view>
@@ -22,11 +37,8 @@
     </view>
     <view class='btn-block'>
       <view class="btn_op btn_op3">排队等待</view>
-    </view>
-    <!-- <view class='btn-block'>
-      <view class="btn_op btn_op2">排队等待</view>
-    </view> -->
-  </view>
+    </view> 
+  </view> -->
 
 
   <!-- 商家简介 -->

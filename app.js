@@ -14,8 +14,8 @@ App({
       store_cover: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584074646138&di=3b36d7cea6762c9fb437fa35e0d0d277&imgtype=0&src=http%3A%2F%2Fimg.yzcdn.cn%2Fupload_files%2F2015%2F04%2F15%2FFosc4sP0wRWATUqrSRVoYi5Ogyt9.jpg'
     }
     wx.setStorageSync('store', store); // 保存店铺信息 
-    wx.removeStorageSync('foodsList');
-    wx.removeStorageSync('currentOrder'); // 清除下单信息
+    // wx.removeStorageSync('foodsList');
+    // wx.removeStorageSync('currentOrder'); // 清除下单信息
 
     // 登录
     wx.login({

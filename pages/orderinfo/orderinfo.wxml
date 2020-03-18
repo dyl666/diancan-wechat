@@ -97,7 +97,7 @@
       <text class="text3">已优惠￥3.00</text>
     </view>
     <view class="btn-box">
-      <button bindtap="addfoodTap" style="border-right:1px solid #bbb" wx:if='{{params.pagefrom != "car" && orderData.order_status == 0}}'>加菜</button>
+      <!-- <button bindtap="addfoodTap" style="border-right:1px solid #bbb" wx:if='{{params.pagefrom != "car" && orderData.order_status == 0}}'>加菜</button> -->
       <button bindtap="payGo">去结算</button>
     </view>
   </view>

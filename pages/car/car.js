@@ -26,7 +26,7 @@ Page({
     activeIndex: 0, // 左菜单 当前选中的index
     lastActive: 0,
     toView: 'a0', // 右列表滚动
-    foodsList: foodsList, // 菜单
+    foodsList: foodsList, // 菜单 
     cartList: [], // 购物车数据
     carShow: false,
     heightArr: [],
@@ -90,7 +90,6 @@ Page({
       sumMoney: sumMoney,
       [curNum]: obj.curNum
     });
-
   },
 
   /**
@@ -258,7 +257,7 @@ Page({
     let currentOrder = {
       cartList: this.data.cartList,
       order: {
-        order_id: immediateList.length > 0 ? immediateList[immediateList.length - 1].order_id + 1 : 1,
+        order_id: immediateList.length > 0 ? (immediateList[immediateList.length - 1].order.order_status == 0 ? immediateList[immediateList.length - 1].order.order_id : immediateList[immediateList.length - 1].order.order_id + 1) : 1,
         order_time: formatTime(new Date), // 下单时间
         order_number: rondomPass(15), //订单编号
         order_status: 0, // 0等待付款 1付款成功 

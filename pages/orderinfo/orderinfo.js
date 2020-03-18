@@ -17,6 +17,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    foodsListOld: foodsList, // 菜单
     cartList: [],
     orderData: {},
     store: {},
@@ -24,13 +25,14 @@ Page({
     min: 5, //最少字数
     max: 200, //最多字数 (根据自己需求改变)
     params: {},
-    index: -1,
+    payGo: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(options)
     var currentOrder = {};
     if (options.pagefrom == 'car') {
       currentOrder = wx.getStorageSync('currentOrder') ? wx.getStorageSync('currentOrder') : {};
@@ -42,11 +44,9 @@ Page({
       orderData: currentOrder.order,
       foodsList: wx.getStorageSync('foodsList'),
       store: wx.getStorageSync('store'),
-      params: options,
-      index: options.index
+      params: options
     })
 
-console.log(this.data.orderData)
 
   },
 
@@ -54,56 +54,52 @@ console.log(this.data.orderData)
   /**
    * 去结算
    */
-  payGo(type = '') {
+  payGo() {
     var that = this;
     let currentOrder = {
       cartList: this.data.cartList,
       order: this.data.orderData,
       store: this.data.store,
     }
-    currentOrder.order.pay_time = formatTime(new Date);
+
     let immediateList = !wx.getStorageSync('immediateList') ? [] : wx.getStorageSync('immediateList');
+    let immediateListStorage = wx.getStorageSync('immediateList');
 
-    if (this.data.index >= 0) {
-      immediateList.splice(this.data.index, 1);
-    }
-
-    if (type == 'back') { // 点击返回保存订单信息 
+    if ((wx.getStorageSync('immediateList').length > 0 && (this.data.params.order_id == this.data.orderData.order_id)) || immediateListStorage.length > 0 && (immediateListStorage[immediateListStorage.length - 1].order.order_status == 0)) { // 修改订单 
+      immediateListStorage.forEach((item, index) => {
+        if (item.order.order_id == this.data.orderData.order_id) {
+          item.order = this.data.orderData;
+          item.order.pay_time = formatTime(new Date);
+          item.order.order_status = 1;
+        }
+      })
+      wx.setStorageSync('immediateList', immediateListStorage);
+    } else { // 增加订单 
+      currentOrder.order.pay_time = formatTime(new Date);
+      currentOrder.order.order_status = 1; // 支付成功后修改状态
       immediateList.push(currentOrder);
       wx.setStorageSync('immediateList', immediateList);
-      return;
     }
 
-    currentOrder.order.order_status = 1; // 支付成功后修改状态 
-    immediateList.push(currentOrder);
+    wx.removeStorageSync('currentOrder'); // 付款成功后移除当前订单缓存
 
+    let foodsList = this.data.foodsListOld;
+    wx.setStorageSync('foodsList', foodsList); // 付款成功后还原菜单缓存
 
-    wx.setStorage({
-      key: 'immediateList',
-      data: immediateList,
-      success: res => {
-        this.setData({
-          cartList: [],
-          foodsList: foodsList,
-          'orderData.order_note': '',
-          'orderData.sumMoney': 0
-        })
-        wx.showToast({
-          title: '支付成功',
-        })
-        setTimeout(function() {
-          wx.navigateBack({
-            delta: 1
-          })
-        }, 1000)
-      },
-      fail: err => {
-        wx.showToast({
-          title: '支付失败',
-        })
-      }
-
+    this.setData({
+      'orderData.order_note': '',
+      'orderData.sumMoney': 0,
+      'orderData.order_id': -1,
+      payGo: true, //  标识支付状态
     })
+    wx.showToast({
+      title: '支付成功',
+    })
+    setTimeout(function() {
+      wx.navigateBack({
+        delta: 1
+      })
+    }, 500)
 
   },
 
@@ -121,17 +117,47 @@ console.log(this.data.orderData)
    */
   onUnload: function() {
 
-    this.payGo('back');
+    if (wx.getStorageSync('immediateList').length > 0 && (this.data.params.order_id == this.data.orderData.order_id)) { // 订单已存在缓存
+      let immediateListStorage = wx.getStorageSync('immediateList');
+      immediateListStorage.forEach((item, index) => {
+        if (item.order.order_id == this.data.orderData.order_id) {
+          item.cartList = this.data.cartList;
+          item.order = this.data.orderData;
+          item.store = this.data.store;
+        }
+      })
+      wx.setStorageSync('immediateList', immediateListStorage);
+      return;
+    }
 
+
+    if (!this.data.payGo) { // 订单没有支付 点击返回
+      this.back();
+    }
+
+  },
+
+
+  /**下单成功没有付款（付款失败） -- 修改订单状态 */
+  back() {
+    var that = this;
     let currentOrder = {
       cartList: this.data.cartList,
       order: this.data.orderData,
-    };
+      store: this.data.store,
+    }
+    let immediateListStorage = !wx.getStorageSync('immediateList') ? [] : wx.getStorageSync('immediateList');
+    if (immediateListStorage.length > 0 && (this.data.orderData.order_id == immediateListStorage[immediateListStorage.length - 1].order.order_id)) {
+      immediateListStorage.splice(immediateListStorage.length - 1, 1);
+    }
+    currentOrder.order.pay_time = '';
 
-    wx.setStorageSync('currentOrder', currentOrder); 
-
+    immediateListStorage.push(currentOrder);
+    wx.setStorageSync('immediateList', immediateListStorage);
+    wx.setStorageSync('currentOrder', currentOrder);
     let foodsList = this.data.foodsList;
     wx.setStorageSync('foodsList', foodsList);
+
   },
 
   cardGo() {

@@ -9,7 +9,7 @@
 
   <view wx-if='{{tabIndex == 0}}' class="content">
     <view class="lists-box" wx:if='{{immediateList.length>0}}'>
-      <view class="item" wx:for='{{immediateList}}' wx:key='unique' catchtap="payTap" data-index='{{index}}' data-orderId='{{order_id}}'  >
+      <view class="item" wx:for='{{immediateList}}' wx:key='unique' catchtap="payTap" data-index='{{index}}' data-order-id='{{item.order.order_id}}'  >
         <view class="left">
           <image src='{{item.store.store_cover}}' class='bottom-image'></image>
         </view>

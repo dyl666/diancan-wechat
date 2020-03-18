@@ -1,8 +1,10 @@
 /**index.wxss**/
-.home-image{
-  width: 96%; 
+
+.home-image {
+  width: 96%;
   border-radius: 12rpx;
 }
+
 .swiper-box {
   margin: 10rpx 0;
   width: 96%;
@@ -105,4 +107,18 @@
 .slide-inline-box {
   display: inline-block;
   margin-right: 10px;
+}
+
+.group {
+  width: 96%;
+  border-radius: 3px;
+  background: #f56c22;
+  padding: 40rpx 0;
+  margin: 10rpx 0;
+  box-shadow: 0px 2px 3px 0px #f25909;
+}
+
+.group .title {
+  display: block;
+  color: #fff;
 }
